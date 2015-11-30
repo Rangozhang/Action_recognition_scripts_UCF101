@@ -3,8 +3,17 @@ import os, sys
 import numpy as np
 import matplotlib.pyplot as plt
 from confusion_matrix import get_confusion_matrix
+import argparse
 
-file_name = 'object/obj_res_real.txt'
+parser = argparse.ArgumentParser()
+parser.add_argument('filename', help = 'result file with label and first 5 predicted class')
+args = parser.parse_args()
+
+if args.filename:
+	file_name = args.filename
+else:
+	file_name = 'object/obj_res_real.txt'
+
 class_num = 101
 conf_mat = get_confusion_matrix(file_name, class_num)
 
