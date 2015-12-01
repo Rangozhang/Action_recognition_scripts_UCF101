@@ -33,5 +33,7 @@ ind_ranking = conf_mat.argsort()[:, -1:-6:-1]
 conf_mat.sort()
 value_ranking = conf_mat[:,-1:-6:-1]
 
+res_fd = open(os.path.basename(file_name).strip().split('.')[0] + "_res"+ ".txt", 'w')
+
 for i, (ind, value) in enumerate(zip(ind_ranking, value_ranking)):
-	print str(i) + " :\t " +  " ".join("{:3d}".format(ele) for ele in ind) + " :\t " + " ".join("{:.2f}".format(ele) for ele in value)
+	res_fd.write(str(i) + " :\t " +  " ".join("{:3d}".format(ele) for ele in ind) + " :\t " + " ".join("{:.2f}".format(ele) for ele in value) + '\n')
