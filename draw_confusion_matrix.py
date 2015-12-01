@@ -17,8 +17,21 @@ else:
 class_num = 101
 conf_mat = get_confusion_matrix(file_name, class_num)
 
-print conf_mat
-print " ".join(str(ele) for ele in np.sum(conf_mat, axis=1))
+
+sum_per_row = np.sum(conf_mat, axis=1)
+conf_mat = (0.0 + conf_mat) / sum_per_row[:, np.newaxis]
+#print " ".join(str(ele) for ele in np.sum(conf_mat, axis=1))
 
 plt.matshow(conf_mat)
-plt.show()
+#plt.show()
+plt.xticks(np.arange(0,101,5))
+plt.yticks(np.arange(0,101,5))
+
+plt.savefig(os.path.basename(file_name).strip().split('.')[0] + ".png")
+
+ind_ranking = conf_mat.argsort()[:, -1:-6:-1]
+conf_mat.sort()
+value_ranking = conf_mat[:,-1:-6:-1]
+
+for i, (ind, value) in enumerate(zip(ind_ranking, value_ranking)):
+	print str(i) + " :\t " +  " ".join("{:3d}".format(ele) for ele in ind) + " :\t " + " ".join("{:.2f}".format(ele) for ele in value)
